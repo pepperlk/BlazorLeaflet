@@ -1,5 +1,6 @@
 using BlazorLeaflet.Models;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Concurrent;
@@ -18,8 +19,28 @@ namespace BlazorLeaflet
 
         private static readonly string _BaseObjectContainer = "window.leafletBlazor";
 
-        public static ValueTask Create(IJSRuntime jsRuntime, Map map) =>
-            jsRuntime.InvokeVoidAsync($"{_BaseObjectContainer}.create", map, DotNetObjectReference.Create(map));
+        public static async Task Create(IJSRuntime jsRuntime, Map map)
+        {
+
+
+
+
+
+            // add cdn refrences to leaflet and leaflet css
+            var css= new Uri("https://unpkg.com/leaflet@1.9.4/dist/"
+                               + "leaflet.css", UriKind.Absolute).ToString();
+            var js = new Uri("https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js", UriKind.Absolute).ToString();
+
+            // add cdn refrences to leaflet and leaflet css
+
+             await jsRuntime.InvokeVoidAsync("blazorExtensions.AddStylesheet", css);
+            await jsRuntime.InvokeVoidAsync("blazorExtensions.AddScript", js);
+
+
+
+
+            await  jsRuntime.InvokeVoidAsync($"{_BaseObjectContainer}.create", map, DotNetObjectReference.Create(map));
+        }
 
         private static DotNetObjectReference<T> CreateLayerReference<T>(string mapId, T layer) where T : Layer
         {

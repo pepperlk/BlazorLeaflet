@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace BlazorLeaflet.Samples
 {
@@ -23,6 +24,7 @@ namespace BlazorLeaflet.Samples
             services.AddRazorPages();
             services.AddServerSideBlazor().AddCircuitOptions(o => { o.DetailedErrors = true; });
             services.AddScoped<CityService>();
+            services.AddLeaflet();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

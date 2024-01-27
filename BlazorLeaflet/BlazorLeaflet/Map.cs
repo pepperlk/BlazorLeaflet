@@ -63,13 +63,14 @@ namespace BlazorLeaflet
 
         private ObservableCollection<Layer> _layers = new ObservableCollection<Layer>();
 
-        private readonly IJSRuntime _jsRuntime;
+        internal IJSRuntime _jsRuntime;
 
         private bool _isInitialized;
+        internal IJSObjectReference module;
 
-        public Map(IJSRuntime jsRuntime)
+        public Map()
         {
-            _jsRuntime = jsRuntime ?? throw new ArgumentNullException(nameof(jsRuntime));
+            //_jsRuntime = jsRuntime ?? throw new ArgumentNullException(nameof(jsRuntime));
             Id = StringHelper.GetRandomString(10);
 
             _layers.CollectionChanged += OnLayersChanged;
